@@ -6,7 +6,6 @@
     <title>AMANY BEAUTY - إكسسوارات نسائية فاخرة</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- كود إخفاء الشريط الأزرق في بلوجر -->
     <b:include data='blog' name='google-analytics'/>
     <style>
       #navbar-iframe {
@@ -23,6 +22,7 @@
             --text: #333333;
             --light-text: #7a7a7a;
             --shadow: rgba(0, 0, 0, 0.08);
+            --success: #4CAF50;
         }
         
         * {
@@ -44,7 +44,7 @@
             box-shadow: 0 2px 15px var(--shadow);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
         
         .top-bar {
@@ -61,11 +61,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 5%;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
+            position: relative; /* للمساعدة في تموضع قائمة الجوال */
         }
         
         .logo h1 {
@@ -82,6 +78,7 @@
         .nav-links {
             display: flex;
             list-style: none;
+            transition: transform 0.3s ease-in-out;
         }
         
         .nav-links li {
@@ -119,6 +116,7 @@
         .header-icons {
             display: flex;
             gap: 20px;
+            align-items: center;
         }
         
         .header-icons i {
@@ -131,6 +129,20 @@
         
         .header-icons i:hover {
             color: var(--accent);
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+        }
+
+        .cart-icon-wrapper.shake {
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
         
         .cart-count {
@@ -148,11 +160,16 @@
             justify-content: center;
             font-weight: bold;
         }
+
+        .hamburger-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
         
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), 
-                        url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
+            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
             height: 80vh;
@@ -204,12 +221,16 @@
             box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
         }
         
-        /* Categories Section */
-        .categories {
+        /* General Sections Styling */
+        .categories, .featured-products, .surprise, .newsletter {
             padding: 80px 5%;
-            background-color: var(--secondary);
         }
-        
+
+        .categories { background-color: var(--secondary); }
+        .featured-products { background-color: var(--primary); }
+        .surprise { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); text-align: center; }
+        .newsletter { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); text-align: center; color: white; }
+
         .section-title {
             text-align: center;
             margin-bottom: 50px;
@@ -234,14 +255,17 @@
             height: 3px;
             background-color: var(--accent);
         }
+
+        .newsletter .section-title h2 { color: white; }
         
-        .category-grid {
+        .category-grid, .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
         }
-        
-        .category-card {
+
+        /* Product & Category Cards */
+        .category-card, .product-card {
             background-color: var(--primary);
             border-radius: 10px;
             overflow: hidden;
@@ -249,72 +273,43 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
         }
-        
+
         .category-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
+        .product-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
         
-        .category-img {
-            height: 250px;
+        .category-img { height: 250px; }
+        .product-img { height: 300px; }
+
+        .category-img, .product-img {
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
-        }
-        
-        .category-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .category-card:hover .category-img img {
-            transform: scale(1.1);
-        }
-        
-        .category-info {
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .category-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--text);
-        }
-        
-        /* Featured Products */
-        .featured-products {
-            padding: 80px 5%;
-            background-color: var(--primary);
-        }
-        
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-        
-        .product-card {
-            background-color: var(--primary);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px var(--shadow);
-            transition: all 0.3s ease;
             position: relative;
         }
         
-        .product-card:hover {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        .category-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .product-img img { max-width: 80%; max-height: 80%; object-fit: contain; transition: transform 0.5s ease; z-index: 1; }
+        
+        .category-card:hover .category-img img, .product-card:hover .product-img img {
+            transform: scale(1.1);
         }
         
+        .category-info, .product-info { padding: 20px; }
+        .category-info { text-align: center; }
+        
+        .category-info h3 { font-size: 1.5rem; margin-bottom: 10px; color: var(--text); }
+        .product-info h3 { font-size: 1.2rem; margin-bottom: 10px; color: var(--text); }
+
         .product-badge {
             position: absolute;
-            top: 15px;
-            left: 15px;
+            top: 15px; left: 15px;
             background: linear-gradient(to right, var(--accent), var(--accent-dark));
             color: var(--primary);
             padding: 5px 15px;
@@ -323,57 +318,16 @@
             font-weight: 600;
             z-index: 2;
         }
-        
-        .product-img {
-            height: 300px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
-            position: relative;
-        }
-        
-        .product-img img {
-            max-width: 80%;
-            max-height: 80%;
-            object-fit: contain;
-            transition: transform 0.5s ease;
-            z-index: 1;
-        }
-        
-        .product-card:hover .product-img img {
-            transform: scale(1.15);
-        }
-        
-        .product-info {
-            padding: 20px;
-        }
-        
-        .product-info h3 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: var(--text);
-        }
-        
+
         .product-info p {
             color: var(--light-text);
             margin-bottom: 15px;
             font-size: 0.9rem;
-            min-height: 60px;
+            min-height: 40px;
         }
         
-        .product-price {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .price {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--accent);
-        }
+        .product-price { display: flex; justify-content: space-between; align-items: center; }
+        .price { font-weight: 700; font-size: 1.2rem; color: var(--accent); }
         
         .add-to-cart {
             background-color: transparent;
@@ -393,14 +347,14 @@
             background-color: var(--accent);
             color: var(--primary);
         }
-        
-        /* Special Surprise Section */
-        .surprise {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            padding: 80px 5%;
-            text-align: center;
+
+        .add-to-cart.added {
+            background-color: var(--success);
+            border-color: var(--success);
+            color: var(--primary);
         }
         
+        /* Surprise Section */
         .surprise-box {
             background-color: var(--primary);
             max-width: 800px;
@@ -413,22 +367,7 @@
             border: 2px solid var(--accent);
         }
         
-        .surprise-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--accent), #ffffff, var(--accent));
-        }
-        
-        .surprise-icon {
-            font-size: 4rem;
-            color: var(--accent);
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
+        .surprise-icon { font-size: 4rem; color: var(--accent); margin-bottom: 20px; animation: pulse 2s infinite; }
         
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -436,28 +375,11 @@
             100% { transform: scale(1); }
         }
         
-        .surprise-box h3 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: var(--text);
-        }
+        .surprise-box h3 { font-size: 2rem; margin-bottom: 20px; color: var(--text); }
         
-        .surprise-box p {
-            color: var(--light-text);
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+        .surprise-box p { color: var(--light-text); margin-bottom: 30px; font-size: 1.1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
         
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
+        .countdown { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
         
         .countdown-box {
             background: linear-gradient(to bottom, var(--accent), var(--accent-dark));
@@ -468,225 +390,177 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
-        .countdown-box span:first-child {
-            font-size: 2rem;
-            font-weight: 700;
-            display: block;
-        }
+        .countdown-box span:first-child { font-size: 2rem; font-weight: 700; display: block; }
         
         /* Newsletter */
-        .newsletter {
-            padding: 80px 5%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            text-align: center;
-            color: white;
-        }
+        .newsletter p { color: rgba(255, 255, 255, 0.9); max-width: 600px; margin: 0 auto 30px auto; }
         
-        .newsletter .section-title h2 {
-            color: white;
-        }
+        .newsletter-form { max-width: 600px; margin: 0 auto; display: flex; }
         
-        .newsletter p {
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+        .newsletter-form input { flex: 1; padding: 15px 25px; border: none; border-radius: 50px 0 0 50px; font-size: 1rem; outline: none; }
         
-        .newsletter-form {
-            max-width: 600px;
-            margin: 30px auto 0;
-            display: flex;
-        }
+        .newsletter-form button { background-color: var(--text); color: var(--primary); border: none; padding: 0 30px; border-radius: 0 50px 50px 0; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
         
-        .newsletter-form input {
-            flex: 1;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 50px 0 0 50px;
-            font-size: 1rem;
-            outline: none;
-        }
-        
-        .newsletter-form button {
-            background-color: var(--text);
-            color: var(--primary);
-            border: none;
-            padding: 0 30px;
-            border-radius: 0 50px 50px 0;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .newsletter-form button:hover {
-            background-color: #222;
-        }
+        .newsletter-form button:hover { background-color: #222; }
         
         /* Footer */
-        footer {
-            background-color: var(--text);
-            color: var(--primary);
-            padding: 60px 5% 30px;
-        }
+        footer { background-color: var(--text); color: var(--primary); padding: 60px 5% 30px; }
         
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
         
-        .footer-col h3 {
-            font-size: 1.4rem;
-            margin-bottom: 25px;
-            position: relative;
-            padding-bottom: 10px;
-            color: var(--accent);
-        }
+        .footer-col h3 { font-size: 1.4rem; margin-bottom: 25px; position: relative; padding-bottom: 10px; color: var(--accent); }
         
-        .footer-col h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 2px;
-            background-color: var(--accent);
-        }
+        .footer-col h3::after { content: ''; position: absolute; bottom: 0; right: 0; width: 50px; height: 2px; background-color: var(--accent); }
         
-        .footer-links {
-            list-style: none;
-        }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
         
-        .footer-links li {
-            margin-bottom: 12px;
-        }
+        .footer-links a { text-decoration: none; color: #d1d1d1; transition: all 0.3s ease; }
+        .footer-links a:hover { color: var(--accent); padding-right: 5px; }
         
-        .footer-links a {
-            text-decoration: none;
-            color: #d1d1d1;
-            transition: all 0.3s ease;
-        }
+        .social-links { display: flex; gap: 15px; margin-top: 20px; }
         
-        .footer-links a:hover {
-            color: var(--accent);
-            padding-right: 5px;
-        }
+        .social-links a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: rgba(255, 255, 255, 0.1); color: var(--primary); border-radius: 50%; transition: all 0.3s ease; }
         
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
+        .social-links a:hover { background-color: var(--accent); transform: translateY(-5px); }
         
-        .social-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--primary);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
+        .contact-info { display: flex; flex-direction: column; gap: 15px; }
+        .contact-item { display: flex; align-items: flex-start; gap: 15px; }
+        .contact-icon { color: var(--accent); font-size: 1.2rem; margin-top: 3px; }
         
-        .social-links a:hover {
-            background-color: var(--accent);
-            transform: translateY(-5px);
-        }
-        
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-        }
-        
-        .contact-icon {
-            color: var(--accent);
-            font-size: 1.2rem;
-            margin-top: 3px;
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #b0b0b0;
-            font-size: 0.9rem;
-        }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #b0b0b0; font-size: 0.9rem; }
         
         /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-main {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
+        @media (max-width: 992px) {
             .nav-links {
-                margin-top: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .nav-links li {
-                margin: 5px 10px;
-            }
-            
-            .hero h2 {
-                font-size: 2.5rem;
-            }
-            
-            .newsletter-form {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .newsletter-form input,
-            .newsletter-form button {
-                border-radius: 50px;
-                padding: 15px;
+                position: absolute;
+                top: 100%;
+                right: 0;
                 width: 100%;
+                flex-direction: column;
+                background-color: var(--primary);
+                box-shadow: 0 8px 16px var(--shadow);
+                padding: 10px 0;
+                transform: translateY(-120%);
+                z-index: -1;
             }
-            
-            .countdown {
-                flex-wrap: wrap;
+            .nav-links.active {
+                transform: translateY(0);
             }
-            
-            .surprise-box {
-                padding: 30px 20px;
+            .nav-links li {
+                margin: 10px 20px;
+            }
+            .hamburger-menu {
+                display: block;
             }
         }
         
-        @media (max-width: 480px) {
-            .hero h2 {
-                font-size: 2rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .section-title h2 {
-                font-size: 2rem;
-            }
-            
-            .btn {
-                padding: 12px 25px;
-                font-size: 0.9rem;
-            }
+        @media (max-width: 768px) {
+            .header-main { flex-wrap: wrap; justify-content: space-between; gap: 15px; }
+            .logo { order: 1; }
+            .header-icons { order: 2; }
+            .hamburger-menu { order: 3; }
+            .nav-links { width: 100%; top: calc(100% + 15px); }
+            .hero h2 { font-size: 2.5rem; }
+            .newsletter-form { flex-direction: column; gap: 10px; }
+            .newsletter-form input, .newsletter-form button { border-radius: 50px; padding: 15px; width: 100%; }
+        }
+    </style>
+
+    <style>
+        /* شريط البحث */
+        .search-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .search-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .close-search {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            font-size: 3rem;
+            color: var(--text);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .close-search:hover {
+            transform: rotate(90deg);
+        }
+        .search-form {
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+        }
+        .search-form input {
+            width: 100%;
+            padding: 20px 30px;
+            border: 2px solid var(--text);
+            border-left: none;
+            border-radius: 50px 0 0 50px;
+            font-size: 1.2rem;
+            outline: none;
+        }
+        .search-form button {
+            padding: 0 30px;
+            border: 2px solid var(--text);
+            background-color: var(--text);
+            color: var(--primary);
+            border-radius: 0 50px 50px 0;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* تنبيهات Toast */
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, #333, #555);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s, bottom 0.5s;
+        }
+        .toast-notification.show {
+            opacity: 1;
+            visibility: visible;
+            bottom: 40px;
+        }
+
+        /* تأثيرات الظهور عند التمرير */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="top-bar">
             <p>الشحن مجاني للطلبات فوق 200 ريال | استمتع بعروض حصرية</p>
@@ -704,191 +578,112 @@
                 <li><a href="#">اتصل بنا</a></li>
             </ul>
             <div class="header-icons">
-                <i class="fas fa-search"></i>
+                <i class="fas fa-search" id="search-icon"></i>
                 <i class="fas fa-user"></i>
-                <i class="fas fa-shopping-bag">
-                    <span class="cart-count">3</span>
-                </i>
+                <div class="cart-icon-wrapper">
+                    <i class="fas fa-shopping-bag">
+                        <span class="cart-count">3</span>
+                    </i>
+                </div>
+            </div>
+            <div class="hamburger-menu">
+                <i class="fas fa-bars"></i>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <div id="search-overlay" class="search-overlay">
+        <span class="close-search">&times;</span>
+        <form class="search-form" onsubmit="event.preventDefault(); alert('جاري البحث...');">
+            <input type="search" placeholder="ابحث عن منتجك المفضل...">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+
     <section class="hero">
-        <div class="hero-content">
+        <div class="hero-content reveal-on-scroll">
             <h2>إكسسوارات تليق بأناقتك</h2>
             <p>اكتشفي أحدث تشكيلات الإكسسوارات الفاخرة المصممة بعناية لتضفي لمسة من الجمال والأناقة على إطلالتك اليومية</p>
             <a href="#" class="btn">اكتشف المجموعة</a>
         </div>
     </section>
 
-    <!-- Categories Section -->
     <section class="categories">
-        <div class="section-title">
+        <div class="section-title reveal-on-scroll">
             <h2>فئات المنتجات</h2>
         </div>
         <div class="category-grid">
-            <div class="category-card">
-                <div class="category-img">
-                    <img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D8%A3%D8%B3%D8%A7%D9%88%D8%B1.jpg" alt="أساور">
-                </div>
-                <div class="category-info">
-                    <h3>أساور</h3>
-                    <p>مجموعة مميزة من الأساور الفاخرة</p>
-                </div>
+            <div class="category-card reveal-on-scroll">
+                <div class="category-img"><img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D8%A3%D8%B3%D8%A7%D9%88%D8%B1.jpg" alt="أساور"></div>
+                <div class="category-info"><h3>أساور</h3><p>مجموعة مميزة من الأساور الفاخرة</p></div>
             </div>
-            <div class="category-card">
-                <div class="category-img">
-                    <img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D8%AE%D8%A7%D8%AA%D9%85%201.jpg" alt="خواتم">
-                </div>
-                <div class="category-info">
-                    <h3>خواتم</h3>
-                    <p>تشكيلة رائعة من الخواتم المتنوعة</p>
-                </div>
+            <div class="category-card reveal-on-scroll">
+                <div class="category-img"><img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D8%AE%D8%A7%D8%AA%D9%85%201.jpg" alt="خواتم"></div>
+                <div class="category-info"><h3>خواتم</h3><p>تشكيلة رائعة من الخواتم المتنوعة</p></div>
             </div>
-            <div class="category-card">
-                <div class="category-img">
-                    <img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D8%B9%D9%82%D8%AF.jpg" alt="عقد">
-                </div>
-                <div class="category-info">
-                    <h3>عقود</h3>
-                    <p>قلائد أنيقة تناسب جميع المناسبات</p>
-                </div>
+            <div class="category-card reveal-on-scroll">
+                <div class="category-img"><img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D8%B9%D9%82%D8%AF.jpg" alt="عقد"></div>
+                <div class="category-info"><h3>عقود</h3><p>قلائد أنيقة تناسب جميع المناسبات</p></div>
             </div>
-            <div class="category-card">
-                <div class="category-img">
-                    <img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D9%82%D8%B1%D8%B7%20%D8%A3%D8%A8%D9%8A%D8%B6.jpg" alt="أقراط">
-                </div>
-                <div class="category-info">
-                    <h3>أقراط</h3>
-                    <p>تشكيلة واسعة من الأقراط المميزة</p>
-                </div>
+            <div class="category-card reveal-on-scroll">
+                <div class="category-img"><img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D9%82%D8%B1%D8%B7%20%D8%A3%D8%A8%D9%8A%D8%B6.jpg" alt="أقراط"></div>
+                <div class="category-info"><h3>أقراط</h3><p>تشكيلة واسعة من الأقراط المميزة</p></div>
             </div>
         </div>
     </section>
 
-    <!-- Featured Products -->
     <section class="featured-products">
-        <div class="section-title">
+        <div class="section-title reveal-on-scroll">
             <h2>منتجات مميزة</h2>
         </div>
         <div class="products-grid">
-            <!-- Product 1 -->
-            <div class="product-card">
+            <div class="product-card reveal-on-scroll">
                 <div class="product-badge">جديد</div>
-                <div class="product-img">
-                    <img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D8%AE%D8%A7%D8%AA%D9%85%202.jpg" alt="خاتم ذهبي">
-                </div>
-                <div class="product-info">
-                    <h3>خاتم ذهبي فاخر</h3>
-                    <p>خاتم من الذهب عيار 18 قيراط بتصميم كلاسيكي أنيق</p>
-                    <div class="product-price">
-                        <div class="price">349 ر.س</div>
-                        <div class="add-to-cart">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                    </div>
-                </div>
+                <div class="product-img"><img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D8%AE%D8%A7%D8%AA%D9%85%202.jpg" alt="خاتم ذهبي"></div>
+                <div class="product-info"><h3>خاتم ذهبي فاخر</h3><p>خاتم من الذهب عيار 18 قيراط بتصميم كلاسيكي أنيق</p><div class="product-price"><div class="price">349 ر.س</div><button class="add-to-cart"><i class="fas fa-plus"></i></button></div></div>
             </div>
-            <!-- Product 2 -->
-            <div class="product-card">
+            <div class="product-card reveal-on-scroll">
                 <div class="product-badge">الأكثر مبيعاً</div>
-                <div class="product-img">
-                    <img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D9%82%D8%B1%D8%B7%20%D8%A3%D8%B2%D8%B1%D9%82.jpg" alt="قرط أزرق">
-                </div>
-                <div class="product-info">
-                    <h3>أقراط زرقاء لازوردية</h3>
-                    <p>أقراط من الفضة عيار 925 مع أحجار لازوردية طبيعية</p>
-                    <div class="product-price">
-                        <div class="price">189 ر.س</div>
-                        <div class="add-to-cart">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                    </div>
-                </div>
+                <div class="product-img"><img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D9%82%D8%B1%D8%B7%20%D8%A3%D8%B2%D8%B1%D9%82.jpg" alt="قرط أزرق"></div>
+                <div class="product-info"><h3>أقراط زرقاء لازوردية</h3><p>أقراط من الفضة عيار 925 مع أحجار لازوردية طبيعية</p><div class="product-price"><div class="price">189 ر.س</div><button class="add-to-cart"><i class="fas fa-plus"></i></button></div></div>
             </div>
-            <!-- Product 3 -->
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D8%B9%D9%82%D8%AF.jpg" alt="عقد">
-                </div>
-                <div class="product-info">
-                    <h3>عقد فاخر بتصميم مميز</h3>
-                    <p>عقد من الذهب الأبيض عيار 18 قيراط مع زخارف دقيقة</p>
-                    <div class="product-price">
-                        <div class="price">420 ر.س</div>
-                        <div class="add-to-cart">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                    </div>
-                </div>
+            <div class="product-card reveal-on-scroll">
+                <div class="product-img"><img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D8%B9%D9%82%D8%AF.jpg" alt="عقد"></div>
+                <div class="product-info"><h3>عقد فاخر بتصميم مميز</h3><p>عقد من الذهب الأبيض عيار 18 قيراط مع زخارف دقيقة</p><div class="product-price"><div class="price">420 ر.س</div><button class="add-to-cart"><i class="fas fa-plus"></i></button></div></div>
             </div>
-            <!-- Product 4 -->
-            <div class="product-card">
+            <div class="product-card reveal-on-scroll">
                 <div class="product-badge">عرض خاص</div>
-                <div class="product-img">
-                    <img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D8%A3%D8%B3%D8%A7%D9%88%D8%B1.jpg" alt="أساور">
-                </div>
-                <div class="product-info">
-                    <h3>سوار أنيق بتصميم متميز</h3>
-                    <p>سوار من الفضة عيار 925 مع تفاصيل ذهبية وزخارف مميزة</p>
-                    <div class="product-price">
-                        <div class="price">279 ر.س</div>
-                        <div class="add-to-cart">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                    </div>
-                </div>
+                <div class="product-img"><img src="https://raw.githubusercontent.com/zeronight66/nnn/9129cdecb3c4b186d8028b9ad5be856b259437dc/%D8%A3%D8%B3%D8%A7%D9%88%D8%B1.jpg" alt="أساور"></div>
+                <div class="product-info"><h3>سوار أنيق بتصميم متميز</h3><p>سوار من الفضة عيار 925 مع تفاصيل ذهبية وزخارف مميزة</p><div class="product-price"><div class="price">279 ر.س</div><button class="add-to-cart"><i class="fas fa-plus"></i></button></div></div>
             </div>
         </div>
     </section>
 
-    <!-- Special Surprise -->
     <section class="surprise">
-        <div class="surprise-box">
-            <div class="surprise-icon">
-                <i class="fas fa-gift"></i>
-            </div>
+        <div class="surprise-box reveal-on-scroll">
+            <div class="surprise-icon"><i class="fas fa-gift"></i></div>
             <h3>مفاجأة خاصة!</h3>
             <p>احصلي على إكسسوار مجاني بقيمة 100 ريال مع كل طلب فوق 300 ريال! اختاري الإكسسوار الذي تفضلينه من مجموعة الهدايا المجانية عند إنهاء الطلب.</p>
             <p>العرض ساري حتى:</p>
-            
             <div class="countdown">
-                <div class="countdown-box">
-                    <span id="days">03</span>
-                    <span>أيام</span>
-                </div>
-                <div class="countdown-box">
-                    <span id="hours">18</span>
-                    <span>ساعات</span>
-                </div>
-                <div class="countdown-box">
-                    <span id="minutes">45</span>
-                    <span>دقائق</span>
-                </div>
-                <div class="countdown-box">
-                    <span id="seconds">22</span>
-                    <span>ثواني</span>
-                </div>
+                <div class="countdown-box"><span id="days">00</span><span>أيام</span></div>
+                <div class="countdown-box"><span id="hours">00</span><span>ساعات</span></div>
+                <div class="countdown-box"><span id="minutes">00</span><span>دقائق</span></div>
+                <div class="countdown-box"><span id="seconds">00</span><span>ثواني</span></div>
             </div>
-            
             <a href="#" class="btn">تسوق الآن واحصلي على هديتك</a>
         </div>
     </section>
 
-    <!-- Newsletter -->
     <section class="newsletter">
-        <div class="section-title">
-            <h2>انضمي إلى قائمتنا البريدية</h2>
-        </div>
-        <p>اشتركي الآن لتصلك أحدث العروض والمجموعات الجديدة قبل الجميع</p>
-        <form class="newsletter-form">
+        <div class="section-title reveal-on-scroll"><h2>انضمي إلى قائمتنا البريدية</h2></div>
+        <p class="reveal-on-scroll">اشتركي الآن لتصلك أحدث العروض والمجموعات الجديدة قبل الجميع</p>
+        <form class="newsletter-form reveal-on-scroll">
             <input type="email" placeholder="بريدك الإلكتروني" required>
             <button type="submit">اشتراك</button>
         </form>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
@@ -926,112 +721,190 @@
             <div class="footer-col">
                 <h3>اتصل بنا</h3>
                 <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <p>جدة، المملكة العربية السعودية</p>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <p>+966 12 345 6789</p>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <p>info@amanybeauty.com</p>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <p>الأحد - الخميس: 9 صباحاً - 10 مساءً</p>
-                    </div>
+                    <div class="contact-item"><div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div><p>جدة، المملكة العربية السعودية</p></div>
+                    <div class="contact-item"><div class="contact-icon"><i class="fas fa-phone"></i></div><p>+966 12 345 6789</p></div>
+                    <div class="contact-item"><div class="contact-icon"><i class="fas fa-envelope"></i></div><p>info@amanybeauty.com</p></div>
+                    <div class="contact-item"><div class="contact-icon"><i class="fas fa-clock"></i></div><p>الأحد - الخميس: 9 صباحاً - 10 مساءً</p></div>
                 </div>
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2023 AMANY BEAUTY. جميع الحقوق محفوظة</p>
+            <p>&copy; 2024 AMANY BEAUTY. جميع الحقوق محفوظة</p>
         </div>
     </footer>
 
+    <div id="toast-notification" class="toast-notification"></div>
+
     <script>
-        // Simple countdown timer
-        function updateCountdown() {
-            const days = document.getElementById('days');
-            const hours = document.getElementById('hours');
-            const minutes = document.getElementById('minutes');
-            const seconds = document.getElementById('seconds');
-            
-            let d = parseInt(days.textContent);
-            let h = parseInt(hours.textContent);
-            let m = parseInt(minutes.textContent);
-            let s = parseInt(seconds.textContent);
-            
-            s--;
-            
-            if (s < 0) {
-                s = 59;
-                m--;
-                
-                if (m < 0) {
-                    m = 59;
-                    h--;
-                    
-                    if (h < 0) {
-                        h = 23;
-                        d--;
-                        
-                        if (d < 0) {
-                            d = 0;
-                            h = 0;
-                            m = 0;
-                            s = 0;
-                        }
-                    }
-                }
-            }
-            
-            days.textContent = d.toString().padStart(2, '0');
-            hours.textContent = h.toString().padStart(2, '0');
-            minutes.textContent = m.toString().padStart(2, '0');
-            seconds.textContent = s.toString().padStart(2, '0');
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // ===============================================
+        // 1. قائمة التصفح المتجاوبة (Hamburger Menu)
+        // ===============================================
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            // تبديل الفئة 'active' لإظهار/إخفاء القائمة
+            navLinks.classList.toggle('active');
+            // تغيير أيقونة القائمة (bars/times)
+            const icon = hamburger.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // ===============================================
+        // 2. شريط البحث التفاعلي
+        // ===============================================
+        const searchIcon = document.getElementById('search-icon');
+        const searchOverlay = document.getElementById('search-overlay');
+        const closeSearch = document.querySelector('.close-search');
+
+        searchIcon.addEventListener('click', () => {
+            searchOverlay.classList.add('active');
+        });
+
+        closeSearch.addEventListener('click', () => {
+            searchOverlay.classList.remove('active');
+        });
+
+        // ===============================================
+        // 3. نظام التنبيهات (Toast Notifications)
+        // ===============================================
+        const toastContainer = document.getElementById('toast-notification');
+
+        function showToast(message) {
+            toastContainer.textContent = message;
+            toastContainer.classList.add('show');
+            setTimeout(() => {
+                toastContainer.classList.remove('show');
+            }, 3000); // إخفاء التنبيه بعد 3 ثوانٍ
         }
-        
-        setInterval(updateCountdown, 1000);
-        
-        // Add to cart animation
+
+        // ===============================================
+        // 4. تحسين "إضافة إلى السلة"
+        // ===============================================
         const addToCartButtons = document.querySelectorAll('.add-to-cart');
-        const cartCount = document.querySelector('.cart-count');
-        let cartItems = 3;
-        
+        const cartCountElement = document.querySelector('.cart-count');
+        const cartIconWrapper = document.querySelector('.cart-icon-wrapper');
+        let cartItems = parseInt(cartCountElement.textContent);
+
         addToCartButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                this.innerHTML = '<i class="fas fa-check"></i>';
-                this.style.backgroundColor = '#4CAF50';
-                this.style.borderColor = '#4CAF50';
+            button.addEventListener('click', function () {
+                if (this.disabled) return; // منع النقرات المتعددة
+
+                this.disabled = true; // تعطيل الزر مؤقتاً
                 
-                // Update cart count
+                // تحديث عدد السلة
                 cartItems++;
-                cartCount.textContent = cartItems;
-                
-                // Cart icon animation
-                const cartIcon = document.querySelector('.fa-shopping-bag');
-                cartIcon.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    cartIcon.style.transform = 'scale(1)';
-                }, 300);
-                
+                cartCountElement.textContent = cartItems;
+                cartIconWrapper.classList.add('shake');
+
+                // تحديث شكل الزر
+                this.innerHTML = '<i class="fas fa-check"></i>';
+                this.classList.add('added');
+
+                // إظهار تنبيه
+                showToast('تمت إضافة المنتج إلى السلة بنجاح!');
+
+                // إعادة الزر إلى حالته الأصلية بعد فترة
                 setTimeout(() => {
                     this.innerHTML = '<i class="fas fa-plus"></i>';
-                    this.style.backgroundColor = 'transparent';
-                    this.style.borderColor = '#d4af37';
-                }, 2000);
+                    this.classList.remove('added');
+                    this.disabled = false; // إعادة تفعيل الزر
+                }, 2000); // بعد ثانيتين
+
+                // إزالة تأثير الاهتزاز من السلة
+                setTimeout(() => {
+                    cartIconWrapper.classList.remove('shake');
+                }, 500);
             });
         });
+
+        // ===============================================
+        // 5. العداد التنازلي الحقيقي
+        // ===============================================
+        // تحديد تاريخ انتهاء العرض (مثال: بعد 5 أيام من الآن)
+        const countdownDate = new Date().getTime() + (5 * 24 * 60 * 60 * 1000);
+
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.querySelector('.countdown').innerHTML = "<h4>انتهى العرض!</h4>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            daysEl.textContent = days.toString().padStart(2, '0');
+            hoursEl.textContent = hours.toString().padStart(2, '0');
+            minutesEl.textContent = minutes.toString().padStart(2, '0');
+            secondsEl.textContent = seconds.toString().padStart(2, '0');
+        }
+
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        updateCountdown(); // التشغيل الفوري
+
+        // ===============================================
+        // 6. نموذج اشتراك ديناميكي
+        // ===============================================
+        const newsletterForm = document.querySelector('.newsletter-form');
+        newsletterForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // منع إعادة تحميل الصفحة
+            const emailInput = this.querySelector('input[type="email"]');
+            if (emailInput.value) {
+                showToast('شكراً لاشتراكك في النشرة البريدية!');
+                emailInput.value = ''; // مسح حقل الإدخال
+            }
+        });
+
+        // ===============================================
+        // 7. تأثيرات الحركة عند التمرير
+        // ===============================================
+        const scrollElements = document.querySelectorAll('.reveal-on-scroll');
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add('visible');
+        };
+
+        const hideScrollElement = (element) => {
+            element.classList.remove('visible');
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25)) {
+                    displayScrollElement(el);
+                }
+            });
+        }
+        
+        // التشغيل الأولي للتحقق من العناصر الظاهرة بالفعل
+        handleScrollAnimation();
+        
+        window.addEventListener('scroll', () => {
+            handleScrollAnimation();
+        });
+
+    });
     </script>
 </body>
 </html>
